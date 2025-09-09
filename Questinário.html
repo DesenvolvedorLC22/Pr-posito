@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definição de Propósitos e Valores</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h2 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        section {
+            margin-bottom: 30px;
+        }
+        .pergunta-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 4px solid #bdc3c7;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Garante que o padding não afete a largura total */
+            min-height: 80px;
+            margin-bottom: 10px;
+        }
+        .resposta-bloco {
+            margin-top: 5px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .btn-adicionar {
+            background-color: #2ecc71;
+        }
+        .btn-adicionar:hover {
+            background-color: #27ae60;
+        }
+        .btn-gerar {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #e67e22;
+        }
+        .btn-gerar:hover {
+            background-color: #d35400;
+        }
+        .botoes-valores button {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .btn-adicionar-mau { background-color: #e74c3c; }
+        .btn-adicionar-mau:hover { background-color: #c0392b; }
+        .btn-adicionar-bom { background-color: #2ecc71; }
+        .btn-adicionar-bom:hover { background-color: #27ae60; }
+        
+        .valores-list-container {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+        }
+        
+        #relatorio-final {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #fafafa;
+            border-radius: 8px;
+            white-space: pre-wrap; /* Preserva quebras de linha e espaços */
+        }
+        #relatorio-final h3 {
+            color: #e67e22;
+        }
+        #relatorio-final ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        #relatorio-final li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <h1>Meu Planejador Pessoal</h1>
+
+        <section id="proposito-section">
+            <h2>Propósito</h2>
+            <div id="proposito-perguntas">
+                </div>
+            <button onclick="adicionarNovaPerguntaProposito()" class="btn-adicionar">Adicionar Nova Pergunta</button>
+        </section>
+
+        <section id="valores-section">
+            <h2>Valores</h2>
+            <div id="valores-perguntas">
+                <div class="pergunta-container">
+                    <label for="v-1">1 - O que você considera importante para você?</label>
+                    <textarea id="v-1" placeholder="Ex: Família, honestidade, crescimento profissional..."></textarea>
+                </div>
+                <div class="pergunta-container">
+                    <label for="v-2">2 - Essas coisas te ajudam a ser uma pessoa melhor como individuo (como se vê)?</label>
+                    <textarea id="v-2" placeholder="Descreva como..."></textarea>
+                </div>
+                <div class="pergunta-container">
+                    <label for="v-3">3 - Essas coisas te ajudam a realizar seus objetivos para alcançar seu próposito?</label>
+                    <textarea id="v-3" placeholder="Explique a conexão."></textarea>
+                </div>
+                <div class="pergunta-container">
+                    <label for="v-4">4 - Você deixaria de fazer essas coisas caso alguém o questionasse a fazer de outro modo ou se manteria firme na resposta apesar de qualquer situação ?. Responda qual(is) sim e qual(is) não</label>
+                    <textarea id="v-4" placeholder="Ex: Me manteria firme na honestidade, mas poderia ser flexível em..."></textarea>
+                </div>
+                <div class="pergunta-container">
+                    <label for="v-5">5 - O que você considera correto?</label>
+                    <textarea id="v-5" placeholder="Descreva sua definição de 'correto'."></textarea>
+                </div>
+                <div class="pergunta-container">
+                    <label for="v-6">6 - Isso está de acordo com a resposta dada no item 2 e 3?</label>
+                    <textarea id="v-6" placeholder="Justifique."></textarea>
+                </div>
+                <div class="pergunta-container">
+                    <label>7 - Com base na necessidade de usar (ou não) métodos desonestos, ilegais, antiéticos ou danosos, liste abaixo seus bons e maus valores:</label>
+                    <div class="botoes-valores">
+                        <button class="btn-adicionar-mau" onclick="adicionarValor('mau')">Adicionar Mau Valor</button>
+                        <button class="btn-adicionar-bom" onclick="adicionarValor('bom')">Adicionar Bom Valor</button>
+                    </div>
+
+                    <div id="maus-valores-container" class="valores-list-container">
+                        <h4>Maus Valores</h4>
+                        </div>
+                    
+                    <div id="bons-valores-container" class="valores-list-container">
+                        <h4>Bons Valores</h4>
+                        </div>
+                </div>
+            </div>
+        </section>
+
+        <button onclick="gerarRelatorio()" class="btn-gerar">Gerar Relatório Final</button>
+
+        <div id="relatorio-final" style="display:none;">
+            </div>
+    </main>
+
+    <script>
+        let perguntaPropositoContador = 0;
+
+        // Função para adicionar um novo bloco de resposta para uma pergunta de propósito
+        function adicionarRespostaProposito(btn) {
+            const respostasContainer = btn.previousElementSibling;
+            const novoBloco = document.createElement('div');
+            novoBloco.classList.add('resposta-bloco');
+            novoBloco.innerHTML = '<textarea placeholder="Digite outra resposta aqui..."></textarea>';
+            respostasContainer.appendChild(novoBloco);
+        }
+
+        // Função para criar a estrutura HTML de uma pergunta de propósito
+        function criarEstruturaPerguntaProposito(pergunta, numero) {
+            perguntaPropositoContador++;
+            const idPergunta = `p-${perguntaPropositoContador}`;
+
+            const container = document.createElement('div');
+            container.classList.add('pergunta-container');
+            
+            container.innerHTML = `
+                <label for="${idPergunta}">${numero} - ${pergunta}</label>
+                <div class="respostas-container">
+                    <div class="resposta-bloco">
+                        <textarea id="${idPergunta}" placeholder="Digite sua resposta aqui..."></textarea>
+                    </div>
+                </div>
+                <button onclick="adicionarRespostaProposito(this)">Adicionar Bloco de Resposta</button>
+            `;
+            return container;
+        }
+
+        // Função para adicionar uma nova pergunta na seção "Propósito"
+        function adicionarNovaPerguntaProposito() {
+            const novaPergunta = prompt("Digite a nova pergunta:");
+            if (novaPergunta && novaPergunta.trim() !== "") {
+                const containerPerguntas = document.getElementById('proposito-perguntas');
+                const numeroPergunta = containerPerguntas.children.length + 1;
+                const novaEstrutura = criarEstruturaPerguntaProposito(novaPergunta, numeroPergunta);
+                containerPerguntas.appendChild(novaEstrutura);
+            }
+        }
+        
+        // NOVA FUNÇÃO para adicionar campos de texto para bons ou maus valores
+        function adicionarValor(tipo) {
+            const novaTextarea = document.createElement('textarea');
+            if (tipo === 'bom') {
+                novaTextarea.placeholder = 'Descreva um bom valor...';
+                document.getElementById('bons-valores-container').appendChild(novaTextarea);
+            } else {
+                novaTextarea.placeholder = 'Descreva um mau valor...';
+                document.getElementById('maus-valores-container').appendChild(novaTextarea);
+            }
+        }
+        
+        // Função principal que gera o relatório final (ATUALIZADA)
+        function gerarRelatorio() {
+            const relatorioDiv = document.getElementById('relatorio-final');
+            let conteudoHTML = '<h2>Relatório Final</h2>';
+
+            // --- SEÇÃO PROPÓSITO ---
+            conteudoHTML += '<h3>Propósito</h3>';
+            const perguntasProposito = document.querySelectorAll('#proposito-perguntas .pergunta-container');
+            
+            perguntasProposito.forEach(p => {
+                const perguntaTexto = p.querySelector('label').textContent;
+                conteudoHTML += `<p><strong>${perguntaTexto}</strong></p><ul>`;
+                
+                const respostas = p.querySelectorAll('textarea');
+                let temResposta = false;
+                respostas.forEach(r => {
+                    if (r.value.trim() !== '') {
+                        conteudoHTML += `<li>${r.value.trim().replace(/\n/g, '<br>')}</li>`;
+                        temResposta = true;
+                    }
+                });
+                if (!temResposta) {
+                    conteudoHTML += '<li>Nenhuma resposta fornecida.</li>';
+                }
+                conteudoHTML += '</ul>';
+            });
+
+            // --- SEÇÃO VALORES ---
+            conteudoHTML += '<h3>Valores</h3>';
+            const perguntasValores = document.querySelectorAll('#valores-perguntas .pergunta-container');
+            
+            for (let i = 0; i < 6; i++) {
+                const p = perguntasValores[i];
+                const perguntaTexto = p.querySelector('label').textContent;
+                const resposta = p.querySelector('textarea').value.trim();
+                conteudoHTML += `<p><strong>${perguntaTexto}</strong></p>`;
+                conteudoHTML += `<p>${resposta ? resposta.replace(/\n/g, '<br>') : 'Nenhuma resposta fornecida.'}</p>`;
+            }
+            
+            // --- NOVA LÓGICA PARA DIVISÃO DE BONS E MAUS VALORES ---
+            conteudoHTML += '<h4>Divisão de Valores (baseado na pergunta 7)</h4>';
+
+            // Coleta Maus Valores
+            conteudoHTML += '<p><strong>Maus Valores:</strong></p><ul>';
+            const mausValoresTextareas = document.querySelectorAll('#maus-valores-container textarea');
+            let temMauValor = false;
+            mausValoresTextareas.forEach(textarea => {
+                if (textarea.value.trim() !== '') {
+                    conteudoHTML += `<li>${textarea.value.trim().replace(/\n/g, '<br>')}</li>`;
+                    temMauValor = true;
+                }
+            });
+            if (!temMauValor) {
+                conteudoHTML += '<li>Nenhum mau valor foi adicionado.</li>';
+            }
+            conteudoHTML += '</ul>';
+
+            // Coleta Bons Valores
+            conteudoHTML += '<p><strong>Bons Valores:</strong></p><ul>';
+            const bonsValoresTextareas = document.querySelectorAll('#bons-valores-container textarea');
+            let temBomValor = false;
+            bonsValoresTextareas.forEach(textarea => {
+                if (textarea.value.trim() !== '') {
+                    conteudoHTML += `<li>${textarea.value.trim().replace(/\n/g, '<br>')}</li>`;
+                    temBomValor = true;
+                }
+            });
+            if (!temBomValor) {
+                conteudoHTML += '<li>Nenhum bom valor foi adicionado.</li>';
+            }
+            conteudoHTML += '</ul>';
+
+
+            relatorioDiv.innerHTML = conteudoHTML;
+            relatorioDiv.style.display = 'block';
+            relatorioDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Carrega as perguntas iniciais da seção "Propósito" quando a página é carregada
+        document.addEventListener('DOMContentLoaded', function() {
+            const containerPerguntas = document.getElementById('proposito-perguntas');
+            const perguntasIniciais = [
+                "Qual objetivo quer alcançar?",
+                "Qual(is) recursos usará para isso?",
+                "Como usará esses recursos para alcançar esse objetivo?",
+                "Quais os impactos desse objetivo para você e as pessoas ao seu redor?"
+            ];
+
+            perguntasIniciais.forEach((pergunta, index) => {
+                const novaEstrutura = criarEstruturaPerguntaProposito(pergunta, index + 1);
+                containerPerguntas.appendChild(novaEstrutura);
+            });
+        });
+
+    </script>
+</body>
+</html>
